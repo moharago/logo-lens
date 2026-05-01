@@ -80,6 +80,38 @@ logo-lens/
 
 ---
 
+## Prerequisites
+
+- **Python** 3.11+
+- **Node.js** 18+
+- **Docker** & Docker Compose
+- **uv** — Python 패키지 관리자 ([설치](https://docs.astral.sh/uv/getting-started/installation/))
+
+---
+
+## Quick Start
+
+```bash
+# 1. 인프라 실행 (MongoDB + Elasticsearch)
+docker compose up mongodb elasticsearch -d
+
+# 2. 의존성 설치
+uv sync --dev
+
+# 3. 샘플 데이터 적재
+python scripts/ingest_sample.py
+
+# 4. API 서버 실행
+uvicorn src.api.main:app --reload
+# → http://127.0.0.1:8000
+
+# 5. 프론트엔드 실행
+cd frontend && npm install && npm run dev
+# → http://localhost:3000
+```
+
+---
+
 ## Getting Started
 
 ### 1. 환경변수 설정
