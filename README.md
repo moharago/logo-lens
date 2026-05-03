@@ -150,8 +150,8 @@ uvicorn src.api.main:app --reload
 
 ```bash
 cd frontend
-npm install
-npm run dev
+pnpm install
+pnpm dev
 # → http://localhost:3000
 ```
 
@@ -214,6 +214,26 @@ curl -X POST http://localhost:8000/search \
 - 이미지 원본은 MongoDB에 BSON Binary(PNG bytes)로 저장, ES에는 벡터만 저장
 - CLIP 임베딩은 L2 정규화 후 cosine similarity로 kNN 검색
 - CPU-bound 임베딩 연산은 `asyncio.to_thread`로 스레드풀에서 실행
+
+---
+
+## Branch Strategy
+
+```
+main        — 배포 가능한 안정 버전
+dev         — 통합 브랜치 (feature 브랜치는 여기로 merge)
+feat/<name> — 기능 개발 (e.g. feat/clip-embedding)
+fix/<name>  — 버그 수정 (e.g. fix/m1-docker)
+docs/<name> — 문서 작업 (e.g. docs/readme)
+```
+
+**Flow**
+
+```
+feat/<name> ──► dev ──► main
+fix/<name>  ──► dev
+docs/<name> ──► dev
+```
 
 ---
 
