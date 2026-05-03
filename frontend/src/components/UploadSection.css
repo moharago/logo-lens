@@ -1,0 +1,140 @@
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #374151;
+}
+
+.upload-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #6b7280;
+}
+
+.dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 190px;
+  justify-content: center;
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+  border-color: #1a56db;
+  background: #eff6ff;
+}
+
+.dropzone.has-preview {
+  padding: 16px;
+  cursor: default;
+  border-style: solid;
+  border-color: #e5e7eb;
+  min-height: 160px;
+}
+
+.preview-img {
+  max-height: 130px;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  color: #9ca3af;
+}
+
+.drop-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.hint {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.btn-upload {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #374151;
+  transition: background 0.15s;
+}
+
+.btn-upload:hover {
+  background: #f9fafb;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-change {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #374151;
+  transition: background 0.15s;
+}
+
+.btn-change:hover {
+  background: #f9fafb;
+}
+
+.btn-search {
+  background: #1a56db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 28px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-search:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.btn-search:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
