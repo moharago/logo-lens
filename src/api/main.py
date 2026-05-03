@@ -1,5 +1,7 @@
 import io
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Any
 
 from bson import ObjectId
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
@@ -15,7 +17,7 @@ from src.search.similarity import search_similar
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await ensure_index()
     yield
 
@@ -41,7 +43,7 @@ async def upload_logo(
     file: UploadFile = File(...),
     brand_name: str = Form(...),
     tags: str = Form(""),
-):
+) -> dict[str, Any]:
     """로고 이미지를 업로드해 MongoDB + Elasticsearch에 저장."""
     image = _open_image(await file.read())
     tag_list = [t.strip() for t in tags.split(",") if t.strip()]
@@ -52,8 +54,10 @@ async def upload_logo(
 # ── 조회 ─────────────────────────────────────────────────────────────────────
 
 @app.get("/logos/{logo_id}")
-async def get_logo(logo_id: str):
+async def get_logo(logo_id: str) -> dict[str, Any]:
     """로고 메타데이터 조회."""
+    if not ObjectId.is_valid(logo_id):
+        raise HTTPException(status_code=404, detail="Logo not found")
     col = get_collection()
     doc = await col.find_one(
         {"_id": ObjectId(logo_id)},
@@ -66,8 +70,10 @@ async def get_logo(logo_id: str):
 
 
 @app.get("/logos/{logo_id}/image")
-async def get_logo_image(logo_id: str):
+async def get_logo_image(logo_id: str) -> Response:
     """로고 원본 이미지(PNG) 반환."""
+    if not ObjectId.is_valid(logo_id):
+        raise HTTPException(status_code=404, detail="Logo not found")
     col = get_collection()
     doc = await col.find_one({"_id": ObjectId(logo_id)}, projection={"image": 1})
     if not doc or "image" not in doc:
@@ -81,7 +87,7 @@ async def get_logo_image(logo_id: str):
 async def search(
     file: UploadFile = File(...),
     top_k: int = 5,
-):
+) -> dict[str, Any]:
     """업로드한 이미지와 유사한 로고 top_k개 반환."""
     top_k = min(max(top_k, 1), 20)
     image = _open_image(await file.read())
@@ -92,5 +98,5 @@ async def search(
 # ── 헬스체크 ──────────────────────────────────────────────────────────────────
 
 @app.get("/health")
-async def health():
+async def health() -> dict[str, str]:
     return {"status": "ok"}
