@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import './UploadSection.css'
 
 export default function UploadSection({ onSearch, loading }) {
@@ -7,9 +7,14 @@ export default function UploadSection({ onSearch, loading }) {
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef()
 
+  useEffect(() => {
+    return () => { if (preview) URL.revokeObjectURL(preview) }
+  }, [preview])
+
   const handleFile = (f) => {
     if (!f) return
     setFile(f)
+    if (preview) URL.revokeObjectURL(preview)
     setPreview(URL.createObjectURL(f))
   }
 

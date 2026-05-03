@@ -1,7 +1,16 @@
+import { useEffect } from 'react'
 import './DetailsModal.css'
 
 export default function DetailsModal({ logo, onClose }) {
   const pct = Math.round(logo.score * 100)
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
 
   return (
     <div className="modal-overlay" onClick={onClose}>
